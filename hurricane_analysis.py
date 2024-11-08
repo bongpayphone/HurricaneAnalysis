@@ -58,16 +58,23 @@ deaths = [90, 4000, 16, 3103, 179, 184, 408, 682, 5, 1023, 43, 319, 688, 259, 37
 
 
 # write your update damages function here:
-def update_damages(damages):
+def update_damages(damages): 
     new_damages = []
-    conversion = {"M": 1000000,
+    conversion = {"M": 1000000, 
                   "B": 1000000000}
     for damage in damages:
         if damage == 'Damages not recorded':
             new_damages.append(damage)
-        elif damage[-1] in conversion.keys():
-            new_value = float(damage[:-1]) * conversion[damage[-1]]
-            new_damages.append(new_value)
+        else:
+            # Check if the last character is "M" or "B"
+            for key in conversion:
+                #The use of endswith(key) ensures that the conversion only happens for values that end in "M" or "B".
+                  if damage.endswith(key):
+                    # Extract the numeric part (everything except the last character)
+                    number = float(damage[:-1])
+                    new_value = number * conversion[key]
+                    new_damages.append(new_value)
+                    break
 
     return new_damages
 
